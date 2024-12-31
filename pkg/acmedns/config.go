@@ -8,6 +8,13 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
+const (
+	ApiTlsProviderNone               = "none"
+	ApiTlsProviderLetsEncrypt        = "letsencrypt"
+	ApiTlsProviderLetsEncryptStaging = "letsencryptstaging"
+	ApiTlsProviderCert               = "cert"
+)
+
 func FileIsAccessible(fname string) bool {
 	_, err := os.Stat(fname)
 	if err != nil {
@@ -43,6 +50,13 @@ func prepareConfig(conf AcmeDnsConfig) (AcmeDnsConfig, error) {
 	// Default values for options added to config to keep backwards compatibility with old config
 	if conf.API.ACMECacheDir == "" {
 		conf.API.ACMECacheDir = "api-certs"
+	}
+
+	switch conf.API.TLS {
+	case ApiTlsProviderCert, ApiTlsProviderLetsEncrypt, ApiTlsProviderLetsEncryptStaging, ApiTlsProviderNone:
+		// we have a good value
+	default:
+		return conf, fmt.Errorf("invalid value for api.tls, expected one of [%s, %s, %s, %s]", ApiTlsProviderCert, ApiTlsProviderLetsEncrypt, ApiTlsProviderLetsEncryptStaging, ApiTlsProviderNone)
 	}
 
 	return conf, nil

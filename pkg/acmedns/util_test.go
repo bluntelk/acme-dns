@@ -263,9 +263,20 @@ func TestPrepareConfig(t *testing.T) {
 		input       AcmeDnsConfig
 		shoulderror bool
 	}{
-		{AcmeDnsConfig{Database: dbsettings{Engine: "whatever", Connection: "whatever_too"}}, false},
-		{AcmeDnsConfig{Database: dbsettings{Engine: "", Connection: "whatever_too"}}, true},
-		{AcmeDnsConfig{Database: dbsettings{Engine: "whatever", Connection: ""}}, true},
+		{AcmeDnsConfig{
+			Database: dbsettings{Engine: "whatever", Connection: "whatever_too"},
+			API:      httpapi{TLS: ApiTlsProviderNone},
+		}, false},
+		{AcmeDnsConfig{Database: dbsettings{Engine: "", Connection: "whatever_too"},
+			API: httpapi{TLS: ApiTlsProviderNone},
+		}, true},
+		{AcmeDnsConfig{Database: dbsettings{Engine: "whatever", Connection: ""},
+			API: httpapi{TLS: ApiTlsProviderNone},
+		}, true},
+		{AcmeDnsConfig{
+			Database: dbsettings{Engine: "whatever", Connection: "whatever_too"},
+			API:      httpapi{TLS: "whatever"},
+		}, true},
 	} {
 		_, err := prepareConfig(test.input)
 		if test.shoulderror {
