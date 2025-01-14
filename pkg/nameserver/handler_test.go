@@ -1,8 +1,9 @@
 package nameserver
 
 import (
-	"github.com/miekg/dns"
 	"testing"
+
+	"github.com/miekg/dns"
 )
 
 func TestNameserver_isOwnChallenge(t *testing.T) {

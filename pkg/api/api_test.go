@@ -4,16 +4,16 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/caddyserver/certmagic"
-	"github.com/joohoi/acme-dns/pkg/nameserver"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/joohoi/acme-dns/pkg/acmedns"
 	"github.com/joohoi/acme-dns/pkg/database"
+	"github.com/joohoi/acme-dns/pkg/nameserver"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/caddyserver/certmagic"
 	"github.com/gavv/httpexpect"
 	"github.com/google/uuid"
 	"github.com/julienschmidt/httprouter"
